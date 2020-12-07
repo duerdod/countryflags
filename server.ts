@@ -11,12 +11,12 @@ function contentType(path: string): string | undefined {
   return MEDIA_TYPES[extname(path)];
 }
 
-const hostname = Deno.env.get('HOSTNAME') || '0.0.0.0'
+const hostname = Deno.env.get('HOSTNAME') ?? '0.0.0.0'
 const port = Number(Deno.env.get('PORT') ?? '8000');
 
 const server = serve({
   hostname,
-  port 
+  port
 });
 
 console.log(`Running flag API on ${hostname}:${port}`)
@@ -57,10 +57,12 @@ for await (const request of server) {
   console.log(`Requesting ${request.url}`)
   try {
     const path = `${Deno.cwd()}/flags/${style}/${size}/${country}.png`
-    console.log(`Fetching ${path}`)
     const content: Partial<Response> = await serveFile(request, path)
     request.respond(content);
   } catch {
-    request.respond({ status: 404 })
+    request.respond({
+      status: 404, body: JSON.stringify({ status: 404, reason: 'Countryflag does not compute' }),
+      headers: new Headers({'content-type': 'application/json'})
+    })
   }
 }
