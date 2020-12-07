@@ -11,7 +11,7 @@ function contentType(path: string): string | undefined {
   return MEDIA_TYPES[extname(path)];
 }
 
-const hostname = env.HOSTNAME || '0.0.0.0'
+const hostname = Deno.env.get('HOSTNAME') || '0.0.0.0'
 const port = Number(Deno.env.get('PORT') ?? '8000');
 
 const server = serve({
