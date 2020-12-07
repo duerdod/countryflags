@@ -14,7 +14,7 @@ function contentType(path: string): string | undefined {
   return MEDIA_TYPES[extname(path)];
 }
 
-const server = serve({ port: env.PORT || 8080 });
+const server = serve({ port: Number(env.PORT) || 8080 });
 console.log('Running flag API')
 
 export async function serveFile(
