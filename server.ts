@@ -47,8 +47,10 @@ export async function serveFile(
 
 for await (const request of server) {
   const [, style, size, country] = request.url.split('/')
+  console.log(`Requesting ${request.url}`)
   try {
     const path = `${Deno.cwd()}/flags/${style}/${size}/${country}.png`
+    console.log(`Fetching ${path}`)
     const content: Partial<Response> = await serveFile(request, path)
     request.respond(content);
   } catch {
