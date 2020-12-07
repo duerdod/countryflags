@@ -32,12 +32,12 @@ export async function serveFile(
 
   const headers = new Headers();
 
-  headers.set("content-length", fileInfo.size.toString());
+  headers.set('content-length', fileInfo.size.toString());
 
   const contentTypeValue = contentType(filePath);
 
   if (contentTypeValue) {
-    headers.set("content-type", contentTypeValue);
+    headers.set('content-type', contentTypeValue);
   }
 
   req.done.then(() => {
@@ -53,7 +53,6 @@ export async function serveFile(
 
 for await (const request of server) {
   const [, style, size, country] = request.url.split('/')
-  console.log(`Requesting ${request.url}`)
   try {
     const path = `${Deno.cwd()}/flags/${style}/${size}/${country}.png`
     const content: Partial<Response> = await serveFile(request, path)
