@@ -1,6 +1,5 @@
 import { serve, ServerRequest, Response } from 'https://deno.land/std@0.79.0/http/server.ts'
 import { extname } from 'https://deno.land/std@0.79.0/path/mod.ts'
-import { config } from "https://deno.land/x/dotenv/mod.ts";
 
 const env = config();
 
@@ -15,7 +14,7 @@ function contentType(path: string): string | undefined {
 }
 
 const hostname = env.HOSTNAME || '0.0.0.0'
-const port = Number(env.PORT) || 8000
+const port = Number(Deno.env.get('PORT') ?? '8000');
 
 const server = serve({
   hostname,
