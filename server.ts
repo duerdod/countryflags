@@ -14,12 +14,15 @@ function contentType(path: string): string | undefined {
   return MEDIA_TYPES[extname(path)];
 }
 
+const hostname = env.HOSTNAME || '0.0.0.0'
+const port = Number(env.PORT) || 8080
+
 const server = serve({
-  hostname: env.HOSTNAME || '0.0.0.0',
-  port: Number(env.PORT) || 8080
+  hostname,
+  port 
 });
 
-console.log('Running flag API')
+console.log(`Running flag API on ${hostname}:${port}`)
 
 export async function serveFile(
   req: ServerRequest,
