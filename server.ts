@@ -1,5 +1,8 @@
 import { serve, ServerRequest, Response } from 'https://deno.land/std@0.79.0/http/server.ts'
 import { extname } from 'https://deno.land/std@0.79.0/path/mod.ts'
+import { config } from "https://deno.land/x/dotenv/mod.ts";
+
+const env = config();
 
 const MEDIA_TYPES: Record<string, string> = {
   '.svg': 'image/svg+xml',
@@ -11,7 +14,7 @@ function contentType(path: string): string | undefined {
   return MEDIA_TYPES[extname(path)];
 }
 
-const server = serve({ port: 8080 });
+const server = serve({ port: env.PORT || 8080 });
 console.log('Running flag API')
 
 export async function serveFile(
