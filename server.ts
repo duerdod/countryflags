@@ -14,7 +14,11 @@ function contentType(path: string): string | undefined {
   return MEDIA_TYPES[extname(path)];
 }
 
-const server = serve({ port: Number(env.PORT) || 8080 });
+const server = serve({
+  hostname: env.HOSTNAME || '0.0.0.0',
+  port: Number(env.PORT) || 8080
+});
+
 console.log('Running flag API')
 
 export async function serveFile(
@@ -40,7 +44,7 @@ export async function serveFile(
   req.done.then(() => {
     file.close();
   });
-  
+
   return {
     status: 200,
     body: file,
