@@ -52,9 +52,10 @@ async function serveFile(
 }
 
 for await (const request of server) {
-  const [, style, size, country] = request.url.split('/')
+  const [, code, style, size] = request.url.split('/')
+  console.log(`${Deno.cwd()}/flags/${code}/${style}/${size}`)
   try {
-    const path = `${Deno.cwd()}/flags/${style}/${size}/${country}.png`
+    const path = `${Deno.cwd()}/flags/${code}/${style}/${size}.png`
     const content: Partial<Response> = await serveFile(request, path)
     request.respond(content);
   } catch {
