@@ -1,8 +1,6 @@
 import { serve, ServerRequest, Response } from 'https://deno.land/std@0.79.0/http/server.ts'
 import { extname } from 'https://deno.land/std@0.79.0/path/mod.ts'
 
-const env = config();
-
 const MEDIA_TYPES: Record<string, string> = {
   '.svg': 'image/svg+xml',
   '.png': 'image/png'
