@@ -20,7 +20,7 @@ const server = serve({
 
 console.log(`Running flag API on ${hostname}:${port}`)
 
-export async function serveFile(
+async function serveFile(
   req: ServerRequest,
   filePath: string,
 ): Promise<Response> {
