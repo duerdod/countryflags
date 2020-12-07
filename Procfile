@@ -1,1 +1,1 @@
-web: deno run --allow-net --allow-read server.ts --port=${PORT}
+worker: deno run --allow-net --allow-read server.ts --port=${PORT}
