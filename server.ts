@@ -15,14 +15,14 @@ function contentType(path: string): string | undefined {
 }
 
 const hostname = env.HOSTNAME || '0.0.0.0'
-const port = Number(env.PORT) || 8080
+const port = Number(env.PORT) || 8000
 
 const server = serve({
   hostname,
   port 
 });
 
-console.log(`Running flag API on ${hostname}:${port} with flags from ${Deno.cwd()}`)
+console.log(`Running flag API on ${hostname}:${port}`)
 
 export async function serveFile(
   req: ServerRequest,
@@ -66,5 +66,4 @@ for await (const request of server) {
   } catch {
     request.respond({ status: 404 })
   }
-
 }
