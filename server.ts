@@ -6,7 +6,6 @@ const MEDIA_TYPES: Record<string, string> = {
   '.png': 'image/png'
 }
 
-/** Returns the content-type based on the extension of a path. */
 function contentType(path: string): string | undefined {
   return MEDIA_TYPES[extname(path)];
 }
@@ -61,7 +60,8 @@ for await (const request of server) {
     request.respond(content);
   } catch {
     request.respond({
-      status: 404, body: JSON.stringify({ status: 404, reason: 'Countryflag does not compute' }),
+      status: 404, 
+      body: JSON.stringify({ status: 404, reason: 'Countryflag does not compute' }),
       headers: new Headers({'content-type': 'application/json'})
     })
   }
