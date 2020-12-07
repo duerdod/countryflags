@@ -3,6 +3,7 @@ import { extname } from 'https://deno.land/std@0.79.0/path/mod.ts'
 import { config } from "https://deno.land/x/dotenv/mod.ts";
 
 const env = config();
+console.log(`HEROKU PORT: ${Number(env.PORT)}`)
 
 const MEDIA_TYPES: Record<string, string> = {
   '.svg': 'image/svg+xml',
