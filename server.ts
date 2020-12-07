@@ -22,7 +22,7 @@ const server = serve({
   port 
 });
 
-console.log(`Running flag API on ${hostname}:${port}`)
+console.log(`Running flag API on ${hostname}:${port} with flags from ${Deno.cwd()}`)
 
 export async function serveFile(
   req: ServerRequest,
