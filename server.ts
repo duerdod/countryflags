@@ -47,9 +47,6 @@ export async function serveFile(
 
 for await (const request of server) {
   const [, style, size, country] = request.url.split('/')
-
-  console.log(`${Deno.cwd()}/flags/${style}/${size}/${country}.png`)
-
   try {
     const path = `${Deno.cwd()}/flags/${style}/${size}/${country}.png`
     const content: Partial<Response> = await serveFile(request, path)
