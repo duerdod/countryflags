@@ -14,7 +14,7 @@ The same structure as countryflags.io. Flags generated using [this](https://gith
 <img src="http://localhost:8000/se/flat/64.png" />
 ```
 
-![example](./flags/se/flat/64.png?raw=true)
+![example](./flags/SE/flat/64.png?raw=true)
 
 ## Run with docker
 
