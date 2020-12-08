@@ -1,36 +1,41 @@
-import { serve, ServerRequest, Response } from 'https://deno.land/std@0.79.0/http/server.ts'
-import { extname } from 'https://deno.land/std@0.79.0/path/mod.ts'
+import {
+  serve,
+  ServerRequest,
+  Response,
+} from 'https://deno.land/std@0.79.0/http/server.ts';
+import { extname } from 'https://deno.land/std@0.79.0/path/mod.ts';
 
 const MEDIA_TYPES: Record<string, string> = {
   '.svg': 'image/svg+xml',
-  '.png': 'image/png'
-}
+  '.png': 'image/png',
+};
 
 function contentType(path: string): string | undefined {
   return MEDIA_TYPES[extname(path)];
 }
 
-const hostname = Deno.env.get('HOSTNAME') ?? '0.0.0.0'
+const hostname = Deno.env.get('HOSTNAME') ?? '0.0.0.0';
 const port = Number(Deno.env.get('PORT') ?? '8000');
 
 const server = serve({
   hostname,
-  port
+  port,
 });
 
-console.log(`Running flag API on ${hostname}:${port}`)
+console.log(`Running flag API on ${hostname}:${port}`);
 
 async function serveFile(
   req: ServerRequest,
-  filePath: string,
+  filePath: string
 ): Promise<Response> {
-
   const [file, fileInfo] = await Promise.all([
     Deno.open(filePath),
     Deno.stat(filePath),
   ]);
 
-  const headers = new Headers();
+  const headers = new Headers({
+    'Cache-Control': 'public, max-age=31536000, immutable',
+  });
 
   headers.set('content-length', fileInfo.size.toString());
 
@@ -48,21 +53,26 @@ async function serveFile(
     status: 200,
     body: file,
     headers,
-  }
+  };
 }
 
 for await (const request of server) {
-  const [, code, style, size] = request.url.split('/')
-  console.log(`${Deno.cwd()}/flags/${code}/${style}/${size}`)
+  const [, code, style, size] = request.url.split('/');
+  console.log(`${Deno.cwd()}/flags/${code}/${style}/${size}`);
   try {
-    const path = `${Deno.cwd()}/flags/${code}/${style}/${size}.png`
-    const content: Partial<Response> = await serveFile(request, path)
+    const path = `${Deno.cwd()}/flags/${code}/${style}/${size}.png`;
+    const content: Partial<Response> = await serveFile(request, path);
     request.respond(content);
   } catch {
     request.respond({
-      status: 404, 
-      body: JSON.stringify({ status: 404, reason: 'Countryflag does not compute' }),
-      headers: new Headers({'content-type': 'application/json'})
-    })
+      status: 404,
+      body: JSON.stringify({
+        status: 404,
+        reason: 'Countryflag does not compute',
+      }),
+      headers: new Headers({
+        'content-type': 'application/json',
+      }),
+    });
   }
 }
